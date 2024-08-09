@@ -1,0 +1,170 @@
+<!----
+    các chuỗi định dạng nhập liệu người dùng 
+
+    - name : /^[A-Za-z]*\s{1}[A-Za-z]*$/
+    - số : /^[0-9]{10}$/
+    - email : /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+
+
+-->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    
+    <div class="container">
+
+           <div class="form_login">
+                  <h4>Nhập thông tin vào form</h4>
+
+                  <div class="form_input_small">
+                     <div class="container_input">
+                        <label for="">Nhập tên người dùng</label>
+                        <input type="text" id="userName" class="input_small" placeholder="Nhập tên..." onkeyup="validateName()"> <!-- onkeyup : theo dõi hành động nhập liệu của người dùng -->
+                        <span class="span_note" id="nameError"></span>
+                     </div>
+
+                     <div class="container_input">
+                        <label for="">Nhập số điện thoại</label>
+                        <input type="number" id="userPhone" class="input_small" placeholder="Nhập SĐT..." onkeyup="validateNumber()">
+                        <span class="span_note" id="numberError"></span>
+                     </div>
+
+                     <div class="container_input">
+                        <label for="">Nhập Email</label>
+                        <input type="email" id="userEmail" class="input_small" placeholder="Nhập Email..." onkeyup="validateEmail()">
+                        <span class="span_note" id="emailError"></span>
+                     </div>
+
+                     <div class="container_input">
+                        <label for="">Nhập phản hồi</label>
+                        <textarea  id="userText" rows="5" class="input_text" placeholder="Nhập phản hồi..."  onkeyup="validateText()"></textarea>
+                        <span class="span_note" id="textError"></span>
+                     </div>
+
+                     <div class="container_button">
+                        <button type="submit" class="btn_submit" onclick="return validateButtonSubmit()">Gửi thông tin</button>
+                        <span id="submit-error" class="span_note_text"></span>
+                     </div>
+                     
+                  </div>
+
+           </div>
+
+    </div>
+
+    <script>
+
+        var nameErrors = document.getElementById('nameError')
+        var numberErrors = document.getElementById('numberError')
+        var emailErrors = document.getElementById('emailError')
+        var textErrors = document.getElementById('textError')
+        var submitErrors = document.getElementById('submit-error')
+
+        function validateName() {
+            var name = document.getElementById('userName').value
+            if (name.length == 0) {
+                nameErrors.innerHTML = "Tên bạn không được để trống!"
+                return false
+            }
+
+            var stringName = /^[A-Za-z]*\s{1}[A-Za-z]*$/
+            if (!name.match(stringName)) {
+                nameErrors.innerHTML = "Hãy nhập đủ tên người dùng !"
+                return false
+            }
+            nameErrors.innerHTML = '<i class="fa-solid fa-circle-check"></i>'
+
+            return true
+        }
+
+        function validateNumber() {
+            var number = document.getElementById('userPhone').value
+
+            if (number.length == 0) {
+                numberErrors.innerHTML = 'Số điện thoại không được để trống !'
+                return false
+            }
+
+            if (number.length !== 10) {
+                numberErrors.innerHTML =  'Bắt buộc đủ 10 số !'
+                return false
+            }
+
+            var stringNumber = /^[0-9]{10}$/
+            if (!number.match(stringNumber)) {
+                numberErrors.innerHTML = 'số điện thoại chưa hợp lệ !'
+            }
+
+            numberErrors.innerHTML = '<i class="fa-solid fa-circle-check"></i>'
+            return true
+        }
+
+        function validateEmail() {
+    var email = document.getElementById('userEmail').value;
+    var emailErrors = document.getElementById('emailError'); 
+
+    if (email.length == 0) {
+        emailErrors.innerHTML = 'Email không được để trống!';
+        return false;
+    }
+
+    var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!email.match(emailPattern)) {
+        emailErrors.innerHTML = 'Email chưa hợp lệ!';
+        return false;
+    }
+
+    emailErrors.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+    return true;
+}
+
+function validateText() {
+    var noteText = document.getElementById('userText').value;
+    var required = 25;
+    var textLength = required - noteText.length;
+
+    if (textLength > 0) {
+        textErrors.innerHTML = 'Nội dung phải có ít nhất ' + required + ' ký tự. Bạn cần thêm ' + textLength + ' ký tự nữa.';
+        return false;
+    }
+
+    textErrors.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+    return true;
+}
+
+    function validateButtonSubmit() {
+        if (!validateName() || !validateEmail() || !validateNumber() || !validateText() ) {
+            submitErrors.innerHTML = 'Vui lòng điền đầy đủ thông tin !'
+            setTimeout(function() {
+                submitErrors.style.display = 'none'
+            }, 3000)
+          
+        } else {
+            alert('Gửi thông tin thành công !')
+            userName.value = ""
+            userPhone.value = ""
+            userEmail.value = ""
+            userText.value = ""
+
+        }
+
+        
+      
+    }
+
+
+
+    </script>
+</body>
+</html>
